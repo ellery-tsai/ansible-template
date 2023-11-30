@@ -1,0 +1,11 @@
+- name: Hello
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Hello
+      ansible.builtin.debug:
+        msg: Hello
+
+    - name: Get OS family
+      ansible.builtin.import_role:
+        name: os_family

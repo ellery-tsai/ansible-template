@@ -1,0 +1,16 @@
+default:
+  image:
+    name: docker.io/library/python:3.9-alpine
+    pull_policy: if-not-present
+
+  before_script:
+    - apk add ansible-lint
+
+stages:
+  - validate
+
+lint:
+  stage: validate
+  script:
+    - yamllint .
+    - ansible-lint .

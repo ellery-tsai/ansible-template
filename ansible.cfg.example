@@ -1,0 +1,34 @@
+[ssh_connection]
+pipelining              = True
+ssh_args                = -o ControlMaster=auto -o ControlPersist=60s -o ConnectionAttempts=3 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
+retries                 = 3
+sftp_batch_mode         = True
+transfer_method         = sftp
+
+[defaults]
+default_gathering       = explicit
+inventory               = inventories/eds/hosts.yml
+
+interpreter_python      = auto_silent
+
+# stdout_callback:
+# - build-in: default, debug, minimal, oneline
+# - custom: tree, skippy, dense, unixy, yaml
+stdout_callback         = default
+display_skipped_hosts   = yes
+display_ok_hosts        = yes
+
+# strategy              = debug
+warnings                = no
+deprecation_warnings    = no
+
+# vault
+# ask_vault_pass        = no
+# vault_password_file   = .vault_key
+
+# Use the stdout_callback when running ad-hoc commands.
+bin_ansible_callbacks   = yes
+
+# collections and roles
+collections_paths       = collections
+roles_path              = roles

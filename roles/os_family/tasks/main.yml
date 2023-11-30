@@ -1,0 +1,51 @@
+---
+- name: Get OS family
+  block:
+    - name: Check by uname
+      ansible.builtin.raw: uname -a
+      changed_when: false
+      failed_when: os_family_raw_ret.rc not in [0, 1]
+      register: os_family_raw_ret
+    - name: Check by powershell
+      when: os_family_raw_ret.rc == 1
+      ansible.builtin.raw: powershell -command "(Get-Variable PSVersionTable -ValueOnly).PSVersion.ToString()"
+      changed_when: false
+      failed_when: os_family_raw_ret_windows.rc not in [0, 1]
+      register: os_family_raw_ret_windows
+  rescue:
+    - name: Debug
+      ansible.builtin.debug:
+        msg:
+          - "Error occured during checking OS family of '{{ inventory_hostname }}'"
+          - "{{ os_family_raw_ret | default({}) }}"
+          - "{{ os_family_raw_ret_windows | default({}) }}"
+  always:
+    - name: Developement
+      ansible.builtin.debug:
+        msg:
+          - "{{ os_family_raw_ret | default({}) }}"
+      tags: [dev, never]
+
+- name: Process on localhost
+  delegate_to: localhost
+  block:
+    - name: Is AIX
+      ansible.builtin.set_fact:
+        os_family_name: 'AIX'
+      when: "'AIX' in os_family_raw_ret.stdout"
+    - name: Is macOS
+      ansible.builtin.set_fact:
+        os_family_name: 'macOS'
+      when: "'Darwin' in os_family_raw_ret.stdout"
+    - name: Is Linux
+      ansible.builtin.set_fact:
+        os_family_name: 'Linux'
+      when: "'Linux' in os_family_raw_ret.stdout or 'linux' in os_family_raw_ret.stdout"
+    - name: Is Windows
+      ansible.builtin.set_fact:
+        os_family_name: 'Windows'
+      when: os_family_raw_ret_windows.rc | default(-1) == 0
+  always:
+    - name: Output OS familiy
+      ansible.builtin.debug:
+        msg: "os_family_name = {{ os_family_name | default('Unknown') }}"

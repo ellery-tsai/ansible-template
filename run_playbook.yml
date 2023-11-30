@@ -1,0 +1,2 @@
+- name: Run playbook by relative path
+  ansible.builtin.import_playbook: '{{ playbook_fqdn_or_path | default("playbooks/hello.yml") }}'
