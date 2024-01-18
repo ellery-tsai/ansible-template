@@ -1,0 +1,13 @@
+---
+- name: Test collection
+  hosts: all
+
+  tasks:
+    - name: Ensure 'fav=lemonade' is in section "[drinks]" in specified file
+      community.general.ini_file:
+        path: /tmp/sample.ini
+        section: drinks
+        option: fav
+        value: lemonade
+        mode: '0600'
+        backup: true
