@@ -1,25 +1,3 @@
----
-collections: []
-
-  # - name: ansible.windows
-  #   version: ">=2.2.0"
-  # - name: community.windows
-  #   version: ">=2.1.0"
-  # - name: community.general
-  #   version: ">=8.0.2"
-
-  # # https://galaxy.ansible.com/ui/repo/published/ansible/windows/
-  # - name: ./files/offline_collections/ansible-windows-2.2.0.tar.gz
-  #   type: file
-
-  # # https://galaxy.ansible.com/ui/repo/published/community/windows/
-  # - name: ./files/offline_collections/community-windows-2.1.0.tar.gz
-  #   type: file
-
-  # # https://galaxy.ansible.com/ui/repo/published/community/general/
-  # - name: ./files/offline_collections/community-general-8.0.2.tar.gz
-  #   type: file
-
-  # # https://galaxy.ansible.com/ui/repo/published/hazel_shen/line_notify/
-  # - name: ./files/offline_collections/hazel_shen-line_notify-1.0.1.tar.gz
-  #   type: file
+collections:
+- name: community-general-8.2.0.tar.gz
+  version: 8.2.0
